@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7720754767115481623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7720754767115481621}
+  - component: {fileID: 7720754767115481620}
+  m_Layer: 0
+  m_Name: Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7720754767115481621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720754767115481623}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 705.5211, y: 2240.1504, z: -7.937146}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7720754767115481620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720754767115481623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89e8b55d6ac2dc4aa8872216f298057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  show_weather:
+    state: 0
+    inttime: 0
+    date: 0000
+    time: 0000
+    hum: 0
+    temp: 0
+    EWwind: 0
+    SNwind: 0
+    form: 0
+    windD: 0
+    windV: 0
+    water: 0
+    hightemp: 0
+    lowtemp: 0
+    sky: 0
+    rainpercent: 0
+    index: 0
+  weatherlist: []
+  now_air:
+    _returnType: 
+    coGrade: 
+    coValue: 
+    dataTerm: 
+    dataTime: 
+    khaiGrade: 
+    khaiValue: 
+    mangName: 
+    no2Grade: 
+    no2Value: 
+    numOfRows: 
+    o3Grade: 
+    o3Value: 
+    pageNo: 
+    pm10Grade: 
+    pm10Grade1h: 
+    pm10Value: 
+    pm10Value24: 
+    pm25Grade: 
+    pm25Grade1h: 
+    pm25Value: 
+    pm25Value24: 
+    resultCode: 
+    resultMsg: 
+    rnum: 0
+    serviceKey: 
+    sidoName: 
+    so2Grade: 
+    so2Value: 
+    stationCode: 
+    stationName: 
+    totalCount: 
+    ver: 
+  dropdown1: {fileID: 0}
+  myTxt: {fileID: 4900000, guid: 376f9ea8aee8f6a46b642b8697a30d73, type: 3}
+  okaybtn1: {fileID: 0}
+  okaybtn2: {fileID: 0}
+  textinput: {fileID: 0}
+  TapAddress: {fileID: 0}
+  TapDate: {fileID: 0}
+  tog1: {fileID: 0}
+  tog2: {fileID: 0}
+  tog3: {fileID: 0}
+  tog4: {fileID: 0}
+  tog5: {fileID: 0}
+  tog6: {fileID: 0}
+  tog7: {fileID: 0}
+  tog8: {fileID: 0}
+  tog9: {fileID: 0}
+  tog10: {fileID: 0}
+  tog11: {fileID: 0}
+  tog12: {fileID: 0}
+  tog13: {fileID: 0}
+  tog14: {fileID: 0}
+  test: {fileID: 0}
+  sun: {fileID: 21300000, guid: 356bcd0df503c3e459e7841cd2cb81ae, type: 3}
+  rain: {fileID: 21300000, guid: 81ede8b2635c1d147a64c855261b80e1, type: 3}
+  rainorsnow: {fileID: 21300000, guid: ad82e49380799e74bbb336fa07ff9975, type: 3}
+  snow: {fileID: 21300000, guid: 2929646adb62cd847a2356833e5bce61, type: 3}
+  sudden: {fileID: 21300000, guid: 81ede8b2635c1d147a64c855261b80e1, type: 3}
+  cloud: {fileID: 21300000, guid: 27c6e01a6119b8e479d7ee765dbda2e5, type: 3}
+  suncloud: {fileID: 21300000, guid: 180d5da6e4e8aed43b471c5791219bf1, type: 3}
+  togglelist: []
+  updating: 0
