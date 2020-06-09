@@ -6,11 +6,9 @@ using UnityEngine.EventSystems;
 
 public class SetModel : MonoBehaviour
 {
-    private Toggle weatherTog;
-    public GameObject weatherPrefab;
+     public GameObject weatherPrefab;
      public ParticleSystem Raincontrol;
-     private Text butt;//테스트용
-     private Button testbtn;//테스트용
+    // private Text butt;//테스트용
      public TextMesh Signtext;
      public ParticleSystem Cloudcontrol;
      private weather show;
@@ -19,42 +17,19 @@ public class SetModel : MonoBehaviour
      public Animator animator;
      
     private Toggle[] togglelist2;
-    private int latest;
-  
-    
-    
-  // private Renderer Skyrend;
-
-    // Start is called before the first frame update
-      void weatherLisnter(bool n)
-    {
-        if(weatherTog.isOn)  weatherPrefab.SetActive(true);
-        else  weatherPrefab.SetActive(false);
-
-    }
+   
+     
+   
 
     private void Start() {
-         //테스트용
-        testbtn=GameObject.FindGameObjectWithTag("temp").GetComponentInChildren<Button>();
-        butt=GameObject.FindGameObjectWithTag("temp").GetComponentInChildren<Text>();
-        //testbtn.onClick.AddListener(dodo);
-        //ㅌ
-        butt.text=butt.text+"start1";
-        //토글 리스너 설정
-
+  
         
-        weatherTog=GameObject.FindGameObjectWithTag("weathertab").GetComponent<Toggle>();
-        weatherTog.onValueChanged.AddListener(weatherLisnter);
-       
+        
         controller=GameObject.FindGameObjectWithTag("controller").GetComponent<Controller>();
         show=new weather(); 
         show=controller.show_weather;
         
-
-        //butt.text=latest.ToString()+" "+anchorxy[0].x.ToString();
-
-        
-        changetog=GameObject.FindGameObjectWithTag("changeTog").GetComponent<Toggle>();
+        changetog=GameObject.FindGameObjectWithTag("changetog").GetComponent<Toggle>();
         togglelist2 = new Toggle[11];
         togglelist2=controller.togglelist;
 
@@ -63,21 +38,14 @@ public class SetModel : MonoBehaviour
             togglelist2[i].onValueChanged.AddListener(ToggleClick2);
         }
         
-        //웨더 시뮬레이션 동작
         updating();
-        
-        if(weatherTog.isOn)  weatherPrefab.SetActive(true);
-        else  weatherPrefab.SetActive(false);    
                    
     }
     
     
   
     public void ToggleClick2(bool val){
-       // if(anchorCreator.m_Anchors.Count!=latest) {
-             
-           // return;
-      //  }
+       
         if(changetog.isOn)
         {
               
@@ -86,8 +54,7 @@ public class SetModel : MonoBehaviour
                 if(controller.updating)
                 { show=controller.show_weather; controller.updating=false;break;}
             }
-            //int tmp=anchorCreator.MatchingIndex.Count-1;
-            //anchorCreator.MatchingIndex[tmp]=show.index;
+             
             updating();
              
         }
@@ -218,7 +185,7 @@ public class SetModel : MonoBehaviour
  
     private void OnDisable()
     {
-        butt.text="끝";
+         
     }
 
     

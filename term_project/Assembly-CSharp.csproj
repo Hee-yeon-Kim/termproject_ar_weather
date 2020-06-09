@@ -70,22 +70,41 @@
     <Compile Include="Assets\Scripts\Helper2.cs" />
     <Compile Include="Assets\Scripts\Helper3.cs" />
     <Compile Include="Assets\Scripts\Helper5.cs" />
+    <Compile Include="Assets\Scripts\PlaceOnPlane.cs" />
     <Compile Include="Assets\Scripts\RestApi.cs" />
     <Compile Include="Assets\Scripts\RestApi2.cs" />
     <Compile Include="Assets\Scripts\RestApi3.cs" />
     <Compile Include="Assets\Scripts\RestApi5.cs" />
     <Compile Include="Assets\Scripts\SetModel.cs" />
     <Compile Include="Assets\Scripts\testbox.cs" />
+    <Compile Include="Assets\example\Scripts\ARFeatheredPlaneMeshVisualizer.cs" />
+    <Compile Include="Assets\example\Scripts\UX\FadePlaneOnBoundaryChange.cs" />
     <Compile Include="Assets\skycontrol.cs" />
+    <None Include="Assets\example\Shaders\FeatheredPlaneShader.shader" />
     <None Include="Assets\Materials\SignPanel\skyshader.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Subsystem.Registration">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.Subsystem.Registration.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.ARSubsystems">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARSubsystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.ARSubsystems.Editor">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARSubsystems.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.ARFoundation.Editor">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARFoundation.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.ARFoundation">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARFoundation.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
@@ -104,6 +123,18 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Management">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.ARCore">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.ARCore.Editor">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.ARCore.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Management.Editor">
+      <HintPath>C:/Users/heeye/Desktop/ar_weather/termproject_ar_weather/term_project/Library/ScriptAssemblies/Unity.XR.Management.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Matrad/2019.3.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

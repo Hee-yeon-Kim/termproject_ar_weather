@@ -79,7 +79,6 @@ public class Controller : MonoBehaviour
     [SerializeField] private Toggle tog12;//for demo
     [SerializeField] private Toggle tog13;//for demo
     [SerializeField] private Toggle tog14;//for demo
-    [SerializeField] private Text test;
     [SerializeField] private Sprite sun;
     [SerializeField] private Sprite rain;
     [SerializeField] private Sprite rainorsnow;

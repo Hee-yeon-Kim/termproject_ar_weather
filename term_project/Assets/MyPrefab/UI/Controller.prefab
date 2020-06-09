@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7720754767115481620}
   m_Layer: 0
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: controller
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,7 +117,6 @@ MonoBehaviour:
   tog12: {fileID: 0}
   tog13: {fileID: 0}
   tog14: {fileID: 0}
-  test: {fileID: 0}
   sun: {fileID: 21300000, guid: 356bcd0df503c3e459e7841cd2cb81ae, type: 3}
   rain: {fileID: 21300000, guid: 81ede8b2635c1d147a64c855261b80e1, type: 3}
   rainorsnow: {fileID: 21300000, guid: ad82e49380799e74bbb336fa07ff9975, type: 3}
