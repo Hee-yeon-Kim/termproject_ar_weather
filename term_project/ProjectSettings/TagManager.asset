@@ -6,6 +6,7 @@ TagManager:
   tags:
   - controller
   - changetog
+  - origin
   layers:
   - Default
   - TransparentFX

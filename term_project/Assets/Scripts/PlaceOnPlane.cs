@@ -10,23 +10,45 @@ public class PlaceOnPlane : MonoBehaviour
     [SerializeField]
     GameObject m_PlacedPrefab;
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
-
+    private GameObject nowmodel;
     ARRaycastManager m_RaycastManager;
     ARSessionOrigin Origin;
-    private Toggle changetog;
+     public  Toggle changetog;
+    [HideInInspector] public bool updateon;
     private List<GameObject> spawned;
     float timer;
-
-
+    public Slider resizingslider;
+    public Button removingbtn;
+ 
     void Awake()
     {
         m_RaycastManager = GetComponent<ARRaycastManager>();
         Origin= GetComponent<ARSessionOrigin>();
-        changetog = GameObject.FindGameObjectWithTag("changetog").GetComponent<Toggle>();
+       // changetog = GameObject.FindGameObjectWithTag("changetog").GetComponent<Toggle>();
         timer = 0;
+        spawned = new List<GameObject>();
+        updateon = false;
+        
 
     }
-
+    private void Start()
+    {
+        resizingslider.onValueChanged.AddListener((float val) => resizing(val));
+        removingbtn.onClick.AddListener(removing);
+        changetog.onValueChanged.AddListener((bool val) => Settingupdating(val));
+    }
+    void Settingupdating(bool val)
+    {
+        if(changetog.isOn)
+        {
+            updateon = true;
+            
+        }
+        else
+        {
+            updateon = false;
+        }
+    }
     bool TryGetTouchPosition(out Vector2 touchPosition)
     {
 
@@ -56,16 +78,19 @@ public class PlaceOnPlane : MonoBehaviour
 
             var hitPose = s_Hits[0].pose;
 
-            if (changetog.isOn)
+            if (updateon)
             {
-                spawned.Add(Instantiate(m_PlacedPrefab, hitPose.position, Quaternion.Euler(tmp)));
-                
+                nowmodel = Instantiate(m_PlacedPrefab, hitPose.position, Quaternion.Euler(tmp));
+                spawned.Add(nowmodel);
+          
+                nowmodel.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+
 
             }
             else
             {
-                spawned[spawned.Count-1].transform.position = hitPose.position;
-                spawned[spawned.Count - 1].transform.rotation = Quaternion.Euler(tmp);
+                nowmodel.transform.position = hitPose.position;
+                nowmodel.transform.rotation = Quaternion.Euler(tmp);
 
             }
             timer = 0;
@@ -86,4 +111,19 @@ public class PlaceOnPlane : MonoBehaviour
         return results.Count > 0;
 
     }
+    void resizing(float val)
+    {
+        foreach(GameObject g in spawned)
+        {
+            g.transform.localScale = new Vector3(val, val, val);
+        }
+    }
+    void removing()
+    {
+        foreach (GameObject g in spawned)
+        {
+            Destroy(g);
+        }
+    }
+
 }

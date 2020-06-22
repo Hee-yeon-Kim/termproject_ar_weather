@@ -53,7 +53,7 @@ public class RestApi2 : MonoBehaviour
                     try{RootObject2 itemss = JsonUtility.FromJson<RootObject2>(jsonResult);
                     callBack(itemss);    }
                     catch{
-                        _ShowAndroidToastMessage("에러:  잘못된 input");
+                       // _ShowAndroidToastMessage("에러:  잘못된 input");
                     }
                          
                 }

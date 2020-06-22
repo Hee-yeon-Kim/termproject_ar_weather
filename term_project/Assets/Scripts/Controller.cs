@@ -68,7 +68,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Toggle tog1;
     [SerializeField] private Toggle tog2;
     [SerializeField] private Toggle tog3;
-    [SerializeField]  private Toggle tog4;
+    [SerializeField] private Toggle tog4;
     [SerializeField] private Toggle tog5;
     [SerializeField] private Toggle tog6;
     [SerializeField] private Toggle tog7;
@@ -188,31 +188,31 @@ public class Controller : MonoBehaviour
  
     }
     void settingDemo(){
-        weatherlist[11].date="20000319";
+        weatherlist[11].date="21000101";
         weatherlist[11].form=1;//rain
-        weatherlist[11].sky=3;//흐림
+        weatherlist[11].sky=1;//맑음
         weatherlist[11].temp=3;
         weatherlist[11].windV=30;//강한바람
         weatherlist[11].time="1400";
         weatherlist[11].water=5;
         weatherlist[11].state=1;
 
-        weatherlist[12].date="20000320";
+        weatherlist[12].date="21000102";
         weatherlist[12].form=0;//맑음
-        weatherlist[12].sky=3;//흐림
-        weatherlist[12].temp=9;
+        weatherlist[12].sky=1;//맑음
+        weatherlist[12].temp=33;//폭염
         weatherlist[12].windV=4;//바람
         weatherlist[12].time="1400";
         weatherlist[12].water=0;
         weatherlist[12].state=1;
 
-        weatherlist[13].date="20000321";
+        weatherlist[13].date="21000103";
         weatherlist[13].form=4;//rain
         weatherlist[13].sky=2;//약간흐림
         weatherlist[13].temp=11;
         weatherlist[13].windV=70;//강한바람
         weatherlist[13].time="1400";
-        weatherlist[13].water=0;
+        weatherlist[13].water=9;
         weatherlist[13].state=1;
         
     }

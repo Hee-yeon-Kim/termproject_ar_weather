@@ -11,11 +11,12 @@ public class SetModel : MonoBehaviour
     // private Text butt;//테스트용
      public TextMesh Signtext;
      public ParticleSystem Cloudcontrol;
+     public ParticleSystem heatdistortion;
+     public ParticleSystem groundfog;
      private weather show;
-     private Toggle changetog;
      private Controller controller;
      public Animator animator;
-     
+    PlaceOnPlane Place;
     private Toggle[] togglelist2;
    
      
@@ -26,10 +27,10 @@ public class SetModel : MonoBehaviour
         
         
         controller=GameObject.FindGameObjectWithTag("controller").GetComponent<Controller>();
+        Place = GameObject.FindGameObjectWithTag("origin").GetComponent<PlaceOnPlane>();
         show=new weather(); 
         show=controller.show_weather;
         
-        changetog=GameObject.FindGameObjectWithTag("changetog").GetComponent<Toggle>();
         togglelist2 = new Toggle[11];
         togglelist2=controller.togglelist;
 
@@ -46,7 +47,7 @@ public class SetModel : MonoBehaviour
   
     public void ToggleClick2(bool val){
        
-        if(changetog.isOn)
+        if(Place.updateon)
         {
               
             while(true)
@@ -65,6 +66,7 @@ public class SetModel : MonoBehaviour
         string raintext="";
         string cloudtext="";
         string windtext="";
+        string temptext = "";
         
         Raincontrol.Clear();
         Cloudcontrol.Clear();
@@ -145,18 +147,40 @@ public class SetModel : MonoBehaviour
         //구름 세팅시작
         var cloudmain=Cloudcontrol.main;
         var cloudemi=Cloudcontrol.emission;
-        switch(show.sky){
+        var fogmain = groundfog.main;
+        var fogemi = groundfog.emission;
+        switch (show.sky){
             
-            case 1: cloudemi.enabled=false; cloudtext="구름없음"; break;
-            case 2: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=3; cloudtext="구름거의없음";  break;
-            case 3: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=8; cloudtext="구름많음";  break;
-            case 4: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=18; cloudtext="흐림";   break;
+            case 1: cloudemi.enabled=false; cloudtext="구름없음"; fogemi.enabled = false; break;
+            case 2: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=3; cloudtext="구름거의없음"; fogemi.enabled = false; break;
+            case 3: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=8; cloudtext="구름많음"; fogemi.enabled = false; break;
+            case 4: cloudemi.enabled=true; cloudmain.loop=true; cloudemi.rateOverTime=18;  cloudtext="흐림"; fogemi.enabled = true; fogmain.loop = true;  break;
             default: cloudtext=""; break;
 
         }//sky:cloud 세팅완료
+
+        //온도-폭염 heat distortion
+        var heatmain = heatdistortion.main;
+        var heatemi = heatdistortion.emission;
+        if (show.temp > 30)
+        {
+            heatemi.enabled = true;
+            heatmain.loop = true;
+            temptext = "폭염주의";
+        }
+        else
+        {
+            heatemi.enabled = false;
+            
+            temptext = show.temp.ToString()+"도";
+        }
+        //heat완료
+
          
-         //바람세팅시작
-         if(show.windV<3) {animator.speed=0; windtext="무풍";}
+
+
+        //바람세팅시작
+        if (show.windV<3) {animator.speed=0; windtext="무풍";}
          else if(show.windV<5.4) {animator.speed=0.2f; windtext="미풍";}
          else if(show.windV<7.9){animator.speed=0.8f; windtext="약풍";}
          else if(show.windV<10.7){ animator.speed=1.7f; windtext="강풍";}//이제 강한바람
@@ -178,7 +202,7 @@ public class SetModel : MonoBehaviour
          
         int time=int.Parse(show.time.Substring(0,2));
          
-        Signtext.text=date1.ToString()+"월 "+date2.ToString()+"일\r\n"+time.ToString()+"시\r\n"+raintext+' '+cloudtext+' '+windtext;
+        Signtext.text=date1.ToString()+"월 "+date2.ToString()+"일\r\n"+time.ToString()+"시\r\n"+temptext+' '+raintext+' '+cloudtext+' '+windtext;
         //표지판 세팅 완료
         
     }
