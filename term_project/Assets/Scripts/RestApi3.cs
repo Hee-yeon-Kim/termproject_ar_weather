@@ -51,7 +51,7 @@ public class RestApi3 : MonoBehaviour
             {
                 if (www.isDone)
                 {
-                      _ShowAndroidToastMessage("API3 요청 승인");
+                      //_ShowAndroidToastMessage("API 요청 승인");
                     string jsonResult = 
                         System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
                     
@@ -62,7 +62,7 @@ public class RestApi3 : MonoBehaviour
                     try{RootObject3 itemss = JsonUtility.FromJson<RootObject3>(jsonResult);
                     callBack(itemss);    }
                     catch{
-                          _ShowAndroidToastMessage("에러:  잘못된 input3");
+                          _ShowAndroidToastMessage("미세먼지 정보제공 안됨");
                     }
                          
                 }

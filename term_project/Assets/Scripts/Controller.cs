@@ -21,46 +21,48 @@ using UnityEngine.Android;//for permission
 
 [System.Serializable]
 public class weather{
-        public int state=0;
-        public int inttime=0;
-        public string date="1111";
-        public string time="1111";
-        public float hum=0.0f;
-        public float temp=0.0f;
-        public float EWwind=0.0f;
-        public float SNwind=0.0f;
-        public int form=0;
-        public int windD=0;
-        public float windV=0.0f;
-        public float water=0.0f; 
-        public float hightemp=0.0f;
-        public float lowtemp=0.0f;
-        public int sky=0;
-        public int rainpercent=0;
-        public int index;
+        public int state=0;//현재날씨는 0// 그외 날씨정보는 1( 신청하는 api가 달라서 구분하기 위한 변수)
+        public int inttime=0;//__시
+        public string date="1111";// 날짜
+        public string time="1111";//몇시몇분
+        public float hum=0.0f;//습도
+        public float temp=0.0f;//온도
+        public float EWwind=0.0f;//동서바람
+        public float SNwind=0.0f;//남북바람
+        public int form=0;//강수형태 - 1:맑음 2:비 3:비와 눈 4:눈 5:소나기
+        public int windD=0;//바람 방향...
+        public float windV=0.0f;//풍속
+        public float water=0.0f; //강수량-이걸로 비가 많이오나 조금오나 파악
+        public float hightemp=0.0f;//최고온도
+        public float lowtemp=0.0f;//최저온도
+        public int sky=0;//하늘상태 - 1:맑음 2:구름거의 없음  3:구름 조금 4: 흐림
+        public int rainpercent=0;//비가 올 확률-api가 제공하지 않아서 없는 변수들도 있음
+        public int index;//몇일 날씨인지 구분하기 위한 변수
  
  }
 
 public class Controller : MonoBehaviour
 {
-  
+
+    private int final_x;
+    private int final_y;
     private string WEB_URL="";
     private string WEB_URL2="";
     private string WEB_URL3="";
     private string WEB_URL4="";
     private string WEB_URL5="";
-     public weather show_weather;
-    public weather[] weatherlist;
-    public AirList now_air;
+    [HideInInspector] public weather show_weather;
+    [HideInInspector] public weather[] weatherlist;
+    [HideInInspector] public AirList now_air;
     public Dropdown dropdown1;
     public TextAsset myTxt;
     public Button okaybtn1;
     public Button okaybtn2;
     public InputField textinput;
-
-   
+    private Toggle GameMode;
     private List<int> selectXY;
-    private List<Dictionary<string, object>> dataList;  
+    private List<Dictionary<string, object>> dataList;
+     
 
 //UI    
     [SerializeField] private Text TapAddress;
@@ -79,6 +81,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private Toggle tog12;//for demo
     [SerializeField] private Toggle tog13;//for demo
     [SerializeField] private Toggle tog14;//for demo
+    [SerializeField] private Toggle tog15;//for demo
+
     [SerializeField] private Sprite sun;
     [SerializeField] private Sprite rain;
     [SerializeField] private Sprite rainorsnow;
@@ -88,13 +92,16 @@ public class Controller : MonoBehaviour
     [SerializeField] private Sprite suncloud;
     [HideInInspector] public Toggle[] togglelist;
     [HideInInspector] public bool updating=false;
- 
+    [HideInInspector] public bool TriggergamemodeOff = false;
+    [HideInInspector] public bool TriggergamemodeOn = false;
+   
+
     private string hourForURL1;
     private string hourForURL2;
     private string todaydateForURL;
-    private string address1;
-    private string address2;
-    private string address3;
+    private string address1="경상북도";//default
+    private string address2="포항시남구";//default
+    private string address3="지곡동";//default
     private string rightdate;
     private string righthour;
     private string rightmin;
@@ -114,14 +121,19 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
    private void Start()
     {
-        weatherlist = new weather[14];
-        now_air=new AirList();
-        for( int i=0; i<14; i++)
+         
+          
+        weatherlist = new weather[15];
+        
+        for( int i=0; i<15; i++)
         {
             weatherlist[i]= new weather();
         }
+        GameMode = GameObject.FindGameObjectWithTag("Game").GetComponent<Toggle>();
+        GameMode.onValueChanged.AddListener((val)=>goGame( val));
+       
 
-        dataList=CSVReader.Read(myTxt);
+        dataList =CSVReader.Read(myTxt);
         selectXY=new List<int>();
         dropdown1.ClearOptions();
         okaybtn1.onClick.AddListener(clickokaybtn1);
@@ -130,7 +142,18 @@ public class Controller : MonoBehaviour
 
 
     }
-
+    public void goGame(bool val)
+    {
+        if(GameMode.isOn)
+        {
+            TriggergamemodeOn = true;
+        }
+        else
+        {
+            TriggergamemodeOff = true;
+        }
+    }
+    
     public void clickokaybtn1(){
         List<string> options1=new List<string>();
         if(dropdown1.options.Count!=0) dropdown1.ClearOptions();
@@ -189,32 +212,42 @@ public class Controller : MonoBehaviour
     }
     void settingDemo(){
         weatherlist[11].date="21000101";
-        weatherlist[11].form=1;//rain
+        weatherlist[11].form=3;//snow
         weatherlist[11].sky=1;//맑음
-        weatherlist[11].temp=3;
-        weatherlist[11].windV=30;//강한바람
+        weatherlist[11].temp=-7;
+        weatherlist[11].windV=20;//바람
         weatherlist[11].time="1400";
         weatherlist[11].water=5;
         weatherlist[11].state=1;
-
-        weatherlist[12].date="21000102";
+        weatherlist[11].inttime = 14;
+        weatherlist[12].date="21000402";
         weatherlist[12].form=0;//맑음
         weatherlist[12].sky=1;//맑음
-        weatherlist[12].temp=33;//폭염
-        weatherlist[12].windV=4;//바람
+        weatherlist[12].temp=20;//
+        weatherlist[12].windV=10;//바람
         weatherlist[12].time="1400";
         weatherlist[12].water=0;
         weatherlist[12].state=1;
-
-        weatherlist[13].date="21000103";
+        weatherlist[12].inttime = 14;
+        weatherlist[13].date="21000903";
         weatherlist[13].form=4;//rain
         weatherlist[13].sky=2;//약간흐림
         weatherlist[13].temp=11;
-        weatherlist[13].windV=70;//강한바람
+        weatherlist[13].windV=50;//강한바람
         weatherlist[13].time="1400";
-        weatherlist[13].water=9;
+        weatherlist[13].water=300;//강한 비
         weatherlist[13].state=1;
-        
+        weatherlist[13].inttime = 14;
+        weatherlist[14].date = "21000803";
+        weatherlist[14].form = 0;//맑음
+        weatherlist[14].sky = 1;//맑음
+        weatherlist[14].temp = 36;//폭염
+        weatherlist[14].windV = 0; 
+        weatherlist[14].time = "1400";
+        weatherlist[14].water = 0;//강한 비
+        weatherlist[14].state = 1;
+        weatherlist[14].inttime = 14;
+
     }
 
     private void Show()
@@ -223,38 +256,54 @@ public class Controller : MonoBehaviour
          TapDate.text= rightdate+"\r\n"+righthour+"시 "+rightmin+"분 기준";
          show_weather=weatherlist[0]; show_weather.index=0;
          
-         togglelist = new Toggle[14]{tog1,tog2,tog3,tog4,tog5,tog6,tog7,tog8,tog9,tog10,tog11,tog12,tog13,tog14};
+         togglelist = new Toggle[15]{tog1,tog2,tog3,tog4,tog5,tog6,tog7,tog8,tog9,tog10,tog11,tog12,tog13,tog14, tog15};
          int i=0;
          int temp_count=0;
          int temp_int=0;
-         foreach(Toggle tog in togglelist)
+         
+        
+        foreach (Toggle tog in togglelist)
          {
-             //string tmp = weatherlist[i].temp.ToString();
-             //tog.GetComponentsInChildren<Text>()[0].text=tmp+"도";
-            if(i==0)
+          
+            if (i==0)
             {
                 tog.GetComponentsInChildren<Text>()[0].text="현재";
+                
+                weatherlist[i].inttime = int.Parse(righthour);
+
             }
             else if(i>10)
             {
-                tog.GetComponentsInChildren<Text>()[0].text="데모용";
+                tog.GetComponentsInChildren<Text>()[0].text="데모용"+(i-10).ToString();
+                
             }
             else
             {
                 temp_int=int.Parse( weatherlist[i].time.Substring(0,2));
+                weatherlist[i].inttime = temp_int;
                 if(temp_int==0)
                 {
                     if(temp_count==0)
-                    { tog.GetComponentsInChildren<Text>()[0].text="내일 "+temp_int.ToString()+"시"; temp_count++;}
+                    {
+                        tog.GetComponentsInChildren<Text>()[0].text="내일 "+temp_int.ToString()+"시"; temp_count++;
+                         
+                    }
                     else
-                    tog.GetComponentsInChildren<Text>()[0].text="내일모레 "+temp_int.ToString()+"시";
+                    {
+                        tog.GetComponentsInChildren<Text>()[0].text = "내일모레 " + temp_int.ToString() + "시";
+                         
+                    }
+                        
                 }
                 else
                 {
                     tog.GetComponentsInChildren<Text>()[0].text=temp_int.ToString()+"시";
+                    
                 }
             }
-            if(weatherlist[i].form==0){
+           
+
+            if (weatherlist[i].form==0){
                 
                 switch(weatherlist[i].sky){
                 case 1: tog.GetComponentInChildren<Image>().sprite=sun; break;
@@ -275,20 +324,22 @@ public class Controller : MonoBehaviour
             }
             
 
-        }
+            }
              int tmp2=i;
              togglelist[i].onValueChanged.AddListener((t)=> ToggleClick(tmp2));
              i++;
-         }
+        }
+       
     }
 
-    public void ToggleClick( int i){
+    public void ToggleClick(int i){
 
         show_weather=weatherlist[i];
         show_weather.index=i;
         //test.text=show_weather.date;//테스트
         if(i==0) show_weather.state=0; 
         else show_weather.state=1;
+      
         updating=true;
 
     }
@@ -497,8 +548,8 @@ public class Controller : MonoBehaviour
 
                 for(var i=0;i<dataList.Count;i++)
                 {
-                    if((dataList[i]["COx"].ToString()).Equals(LatLngToXY["x"].ToString())){
-                        if((dataList[i]["COy"].ToString()).Equals(LatLngToXY["y"].ToString()))
+                    if((dataList[i]["COx"].ToString()).Equals(final_x.ToString())){
+                        if((dataList[i]["COy"].ToString()).Equals(final_y.ToString()))
                         {
                             address1=dataList[i]["AD1"].ToString();
                             address2=dataList[i]["AD2"].ToString();
@@ -510,7 +561,6 @@ public class Controller : MonoBehaviour
                  Input.location.Stop();
                  settingDemo();
                  Show();
-
                  WEB_URL3="http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getTMStdrCrdnt?umdName="
                          +address3+"&pageNo=1&numOfRows=10&ServiceKey=w6hMMFdaqKyFWywg%2F0XFBLk3dXev9ujSBriCDatFX6mLTgINou81cYHgyQUR0nsA2sTTmneuZ1oRRjZ%2FzmSfWA%3D%3D&_returnType=json";
 
@@ -518,7 +568,7 @@ public class Controller : MonoBehaviour
             }      
     }
 
-
+   
     // Update is called once per frame
     void Update()
     {
@@ -603,7 +653,7 @@ public class Controller : MonoBehaviour
                 break;
             }
             if(i==root.list.Count-1){
-                _ShowAndroidToastMessage("미세먼지 정보를 원하시면 탐색버튼을 눌러 다른 읍/면/동을 선택해 주세요.");
+                _ShowAndroidToastMessage("미세먼지 정보를 원하시면 탐색버튼을 눌러 주변의 읍/면/동을 선택해 주세요.");
                
                 return;
             }
@@ -625,13 +675,16 @@ public class Controller : MonoBehaviour
         
     }
     public void GetnowItems5(RootObject4 root){
-      
-        now_air=root.list[0];
+        now_air = new AirList();
+        now_air =root.list[0];
+        
        
     }
     public void GetnowItems(RootObject root){
-     
-        foreach(Item itemm in root.response.body.items.item)
+
+        final_x=root.response.body.items.item[0].nx;
+        final_y= root.response.body.items.item[0].ny;
+        foreach (Item itemm in root.response.body.items.item)
         {
                
             

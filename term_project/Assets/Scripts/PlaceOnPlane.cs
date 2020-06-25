@@ -13,7 +13,7 @@ public class PlaceOnPlane : MonoBehaviour
     private GameObject nowmodel;
     ARRaycastManager m_RaycastManager;
     ARSessionOrigin Origin;
-     public  Toggle changetog;
+    public  Toggle changetog;
     [HideInInspector] public bool updateon;
     private List<GameObject> spawned;
     float timer;
@@ -46,7 +46,16 @@ public class PlaceOnPlane : MonoBehaviour
         }
         else
         {
+            while(spawned.Count>1)
+            {
+                foreach(GameObject g in spawned)
+                {
+                    Destroy(g);
+                    spawned.RemoveAt(0);
+                }
+            }
             updateon = false;
+
         }
     }
     bool TryGetTouchPosition(out Vector2 touchPosition)
@@ -66,7 +75,7 @@ public class PlaceOnPlane : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        timer += Time.deltaTime;//중복클릭 방지
         if (!TryGetTouchPosition(out Vector2 touchPosition)||timer<3.5f)
             return;
 
@@ -78,21 +87,21 @@ public class PlaceOnPlane : MonoBehaviour
 
             var hitPose = s_Hits[0].pose;
 
-            if (updateon)
+            if (updateon || nowmodel==null)//처음 모델 생성하거나 다중모드일땐 터치할때마다 프리팹 인스턴스
             {
                 nowmodel = Instantiate(m_PlacedPrefab, hitPose.position, Quaternion.Euler(tmp));
                 spawned.Add(nowmodel);
-          
                 nowmodel.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
 
 
             }
-            else
+            else //다중모드 아닐땐 모델 위치와 방향만 바꿈 
             {
                 nowmodel.transform.position = hitPose.position;
                 nowmodel.transform.rotation = Quaternion.Euler(tmp);
-
+                 
             }
+           
             timer = 0;
         }
         
@@ -113,10 +122,8 @@ public class PlaceOnPlane : MonoBehaviour
     }
     void resizing(float val)
     {
-        foreach(GameObject g in spawned)
-        {
-            g.transform.localScale = new Vector3(val, val, val);
-        }
+        if(nowmodel!=null) nowmodel.transform.localScale = new Vector3(val, val, val);
+        
     }
     void removing()
     {
@@ -124,6 +131,7 @@ public class PlaceOnPlane : MonoBehaviour
         {
             Destroy(g);
         }
+        spawned.Clear();
     }
 
 }

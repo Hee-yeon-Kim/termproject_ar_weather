@@ -7,6 +7,10 @@ TagManager:
   - controller
   - changetog
   - origin
+  - fruit
+  - Game
+  - Graph
+  - anim
   layers:
   - Default
   - TransparentFX

@@ -50,7 +50,7 @@ public class RestApi : MonoBehaviour
             {
                 if (www.isDone)
                 {
-                      _ShowAndroidToastMessage("API 요청 승인");
+                      _ShowAndroidToastMessage("API 요청 중");
                     string jsonResult = 
                         System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
                     
@@ -61,7 +61,7 @@ public class RestApi : MonoBehaviour
                     try{RootObject itemss = JsonUtility.FromJson<RootObject>(jsonResult);
                     callBack(itemss);    }
                     catch{
-                          //_ShowAndroidToastMessage("에러:  잘못된 input");
+                        _ShowAndroidToastMessage("에러:  잘못된 input");
                     }
                          
                 }
