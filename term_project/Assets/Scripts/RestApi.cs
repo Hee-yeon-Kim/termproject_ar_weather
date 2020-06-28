@@ -43,7 +43,7 @@ public class RestApi : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                 _ShowAndroidToastMessage("에러: API 요청 거부");
+                 _ShowAndroidToastMessage("네트워크 문제 또는 API 제공가능시간이 아니므로 현재 날씨의 API 요청이 거부되었습니다.");
                 
             }
             else
@@ -61,7 +61,7 @@ public class RestApi : MonoBehaviour
                     try{RootObject itemss = JsonUtility.FromJson<RootObject>(jsonResult);
                     callBack(itemss);    }
                     catch{
-                        _ShowAndroidToastMessage("에러:  잘못된 input");
+                        _ShowAndroidToastMessage("지금은 일시적으로 현재 날씨 정보를 받아올 수 없습니다.");
                     }
                          
                 }

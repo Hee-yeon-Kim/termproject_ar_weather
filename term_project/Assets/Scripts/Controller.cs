@@ -212,8 +212,8 @@ public class Controller : MonoBehaviour
     }
     void settingDemo(){
         weatherlist[11].date="21000101";
-        weatherlist[11].form=3;//snow
-        weatherlist[11].sky=1;//맑음
+        weatherlist[11].form=3;//겨울
+        weatherlist[11].sky=1;
         weatherlist[11].temp=-7;
         weatherlist[11].windV=20;//바람
         weatherlist[11].time="1400";
@@ -221,40 +221,39 @@ public class Controller : MonoBehaviour
         weatherlist[11].state=1;
         weatherlist[11].inttime = 14;
         weatherlist[12].date="21000402";
-        weatherlist[12].form=0;//맑음
-        weatherlist[12].sky=1;//맑음
-        weatherlist[12].temp=20;//
-        weatherlist[12].windV=10;//바람
+        weatherlist[12].form=0;//봄
+        weatherlist[12].sky=1;
+        weatherlist[12].temp=20;
+        weatherlist[12].windV=10;
         weatherlist[12].time="1400";
         weatherlist[12].water=0;
         weatherlist[12].state=1;
         weatherlist[12].inttime = 14;
         weatherlist[13].date="21000903";
-        weatherlist[13].form=4;//rain
-        weatherlist[13].sky=2;//약간흐림
+        weatherlist[13].form=4;//가을
+        weatherlist[13].sky=2;
         weatherlist[13].temp=11;
-        weatherlist[13].windV=50;//강한바람
+        weatherlist[13].windV=50;
         weatherlist[13].time="1400";
-        weatherlist[13].water=300;//강한 비
+        weatherlist[13].water=300;
         weatherlist[13].state=1;
         weatherlist[13].inttime = 14;
         weatherlist[14].date = "21000803";
-        weatherlist[14].form = 0;//맑음
-        weatherlist[14].sky = 1;//맑음
-        weatherlist[14].temp = 36;//폭염
+        weatherlist[14].form = 0;//여름
+        weatherlist[14].sky = 1;
+        weatherlist[14].temp = 36;
         weatherlist[14].windV = 0; 
         weatherlist[14].time = "1400";
-        weatherlist[14].water = 0;//강한 비
+        weatherlist[14].water = 0;
         weatherlist[14].state = 1;
         weatherlist[14].inttime = 14;
-
     }
 
     private void Show()
     {
          TapAddress.text=address1+" "+address2+"\r\n"+address3;
          TapDate.text= rightdate+"\r\n"+righthour+"시 "+rightmin+"분 기준";
-         show_weather=weatherlist[0]; show_weather.index=0;
+          
          
          togglelist = new Toggle[15]{tog1,tog2,tog3,tog4,tog5,tog6,tog7,tog8,tog9,tog10,tog11,tog12,tog13,tog14, tog15};
          int i=0;
@@ -329,7 +328,8 @@ public class Controller : MonoBehaviour
              togglelist[i].onValueChanged.AddListener((t)=> ToggleClick(tmp2));
              i++;
         }
-       
+        tog1.Select();
+        show_weather = weatherlist[0]; show_weather.index = 0;
     }
 
     public void ToggleClick(int i){
@@ -368,18 +368,6 @@ public class Controller : MonoBehaviour
         {
             StartCoroutine("GetLatLonUsingGPS");
         }
-                    
-        /* if( !Input.location.isEnabledByUser ) //FIRST IM CHACKING FOR PERMISSION IF "true" IT MEANS USER GAVED PERMISSION FOR USING LOCATION INFORMATION
-        {
-           // statusTxt.text = "No Permission";
-           Permission.RequestUserPermission(Permission.FineLocation);
-      
-        }
-           else
-        {
-            //statusTxt.text = "Ok Permission";
-            StartCoroutine("GetLatLonUsingGPS");
-        }*/
     }
     void setTime(){
 
@@ -569,12 +557,7 @@ public class Controller : MonoBehaviour
     }
 
    
-    // Update is called once per frame
-    void Update()
-    {
-        //_UpdateApplicationLifecycle();
-    }
-
+    //GPS 정보를 통해 얻은 위도와 경도로 기상청 격자기준으로 사용자 현위치좌표값 계산
     Dictionary<string, double> dfs_xy_conf(string code, double v1, double v2)
     {
             double DEGRAD = System.Math.PI / 180.0;
@@ -841,45 +824,6 @@ public class Controller : MonoBehaviour
     }  
     
     
-    /*private void _UpdateApplicationLifecycle()
-    {
-            //종료 Exit the app when the 'back' button is pressed.
-            if (Input.GetKey(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
-
-            // 대기 or 진행 Only allow the screen to sleep when not tracking.
-            if (Session.Status != SessionStatus.Tracking)
-            {
-                Screen.sleepTimeout = SleepTimeout.SystemSetting;
-            }
-            else
-            {
-                Screen.sleepTimeout = SleepTimeout.NeverSleep;// 화면이 꺼지지 않도록 prevent screen dimming
-            }
-
-            if (m_IsQuitting) //에러 때문에 종료되는 상황
-            {
-                return;
-            }
-
-            // Quit if ARCore was unable to connect and give Unity some time for the toast to
-            // appear.
-            if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
-            {
-                _ShowAndroidToastMessage("Camera permission is needed to run this application.");
-                m_IsQuitting = true;
-                Invoke("_DoQuit", 0.5f);// 0.5f time 후에 _DoQuit 함수 실행하라
-            }
-            else if (Session.Status.IsError())
-            {
-                _ShowAndroidToastMessage(
-                    "ARCore encountered a problem connecting.  Please start the app again.");
-                m_IsQuitting = true;
-                Invoke("_DoQuit", 0.5f);
-            }
-     }*/
     private void OnDisable()
     {
             StopAllCoroutines();

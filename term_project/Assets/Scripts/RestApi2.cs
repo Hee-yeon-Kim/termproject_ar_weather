@@ -35,14 +35,14 @@ public class RestApi2 : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                 _ShowAndroidToastMessage("에러: API 요청 거부");
+                 _ShowAndroidToastMessage("네트워크 문제 또는 API 제공가능시간이 아니므로 예보정보의 API 요청이 거부되었습니다.");
                 
             }
             else
             {
                 if (www.isDone)
                 {
-                      _ShowAndroidToastMessage("API 요청 승인");
+                      _ShowAndroidToastMessage("예보정보 API 요청 승인");
                     string jsonResult = 
                         System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
                     

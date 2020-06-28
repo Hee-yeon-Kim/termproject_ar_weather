@@ -43,7 +43,7 @@ public class RestApi5 : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                 _ShowAndroidToastMessage("에러: API5 요청 거부");
+                 _ShowAndroidToastMessage("네트워크 문제 또는 API 제공가능장소가 아니므로 미세먼지API 요청이 거부되었습니다.");
                 
             }
             else
@@ -61,7 +61,7 @@ public class RestApi5 : MonoBehaviour
                     try{RootObject4 itemss = JsonUtility.FromJson<RootObject4>(jsonResult);
                     callBack(itemss);    }
                     catch{
-                          _ShowAndroidToastMessage("미세먼지 정보 제공 안됨");
+                          _ShowAndroidToastMessage("미세먼지 정보 제공이 안되는 지역입니다.");
                     }
                          
                 }

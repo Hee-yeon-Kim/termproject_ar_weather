@@ -6,19 +6,20 @@ using UnityEngine.EventSystems;
  
 public class SetModel : MonoBehaviour
 {
-     public GameObject weatherPrefab;
-     public ParticleSystem Raincontrol;
-     public TextMesh Signtext;
-     public ParticleSystem heatdistortion;
-     private weather show;
-     private Controller controller;
-     public Animator animator;
-     PlaceOnPlane Place;
+    public GameObject weatherPrefab;
+    public ParticleSystem Raincontrol;
+    public TextMesh Signtext;
+    public ParticleSystem heatdistortion;
+    private weather show;
+    private Controller controller;
+    public Animator animator;
+    PlaceOnPlane Place;
     public Light mylight;
     public GameObject moon;
     public GameObject Lowcloud;
     public GameObject Highcloud;
     public ParticleSystem groundfog;
+    public ParticleSystem groundfog2;
     private Material cloudmat1;
     private Material cloudmat2;
     public GameObject game;
@@ -36,12 +37,11 @@ public class SetModel : MonoBehaviour
    
         controller=GameObject.FindGameObjectWithTag("controller").GetComponent<Controller>();
         Place = GameObject.FindGameObjectWithTag("origin").GetComponent<PlaceOnPlane>();
-         show =new weather(); 
+        show =new weather(); 
         show=controller.show_weather;
         cloudmat1=Lowcloud.GetComponent<MeshRenderer>().material;
         cloudmat2 = Highcloud.GetComponent<MeshRenderer>().material;
         
-
         updating();
                    
     }
@@ -85,6 +85,7 @@ public class SetModel : MonoBehaviour
         string temptext = "";
         Raincontrol.Clear();
         groundfog.Clear();
+        groundfog2.Clear();
         heatdistortion.Clear();
         Summer.SetActive(false);
         Fall.SetActive(false);
@@ -142,7 +143,7 @@ public class SetModel : MonoBehaviour
             moon.SetActive(true);
             skymat.SetTextureOffset("_MainTex", new Vector2(0.05f, 0));
         }
-        else if (6 <= time && time <= 15)
+        else if (6 <= time && time <= 15)//아침&낮
         {
             mylight.intensity = 1.5f;
             moon.SetActive(false);
@@ -158,7 +159,10 @@ public class SetModel : MonoBehaviour
 
         //현재 미세먼지
         string airquality = "";
-        if(show.state==0&&controller.now_air!=null)
+        var finedustemi = groundfog2.emission;
+        var finedustmain = groundfog2.main;
+        finedustemi.enabled = false;
+        if (show.state==0&&controller.now_air!=null)
         {
             int todayair = int.Parse(controller.now_air.pm10Grade);
             switch (todayair)
@@ -171,9 +175,13 @@ public class SetModel : MonoBehaviour
                     break;
                 case 3:
                     airquality = "오늘> 미세먼지-나쁨";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
                 case 4:
                     airquality = "오늘> 미세먼지-매우나쁨";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
             }
             int todayair2 = int.Parse(controller.now_air.pm25Grade);
@@ -203,9 +211,13 @@ public class SetModel : MonoBehaviour
                     break;
                 case 3:
                     airquality += "현재> 미세먼지-나쁨";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
                 case 4:
                     airquality += "현재> 미세먼지-매우나쁨";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
             }
             int nowair2 = int.Parse(controller.now_air.pm25Grade1h);
@@ -219,13 +231,18 @@ public class SetModel : MonoBehaviour
                     break;
                 case 3:
                     airquality += "&초미세먼지-나쁨\n";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
                 case 4:
                     airquality += "&초미세먼지-매우나쁨\n";
+                    finedustemi.enabled = true;
+                    finedustmain.loop = true;
                     break;
             }
 
         }
+      
         //비세팅
         var rainemi=Raincontrol.emission;
         var rainmain=Raincontrol.main;
@@ -303,7 +320,6 @@ public class SetModel : MonoBehaviour
             case 3://눈
                     raintext="눈";
                     rainemi.enabled=false;
-                //눈 효과 아직 안넣음//
                     break;
             default: raintext="";
                     break;
@@ -314,19 +330,23 @@ public class SetModel : MonoBehaviour
         
         var fogmain = groundfog.main;
         var fogemi = groundfog.emission;
-        var col = cloudmat1.color;
-        var col2 = cloudmat2.color;
+        
         cloudmat1.SetFloat("_Speed", 0.37f); cloudmat2.SetFloat("_Speed", 0.37f);
+        Color ccolor = cloudmat1.color;
+        Color ccolor2 = cloudmat2.color;
         fogemi.enabled = false;
         switch (show.sky){
             
-            case 1:  cloudtext="구름없음";col.a= 0.0f;  col2.a = 0.0f;  mylight.intensity *= 1.1f; break;
-            case 2:  col.a = 0.8f;  col2.a = 0.8f;  cloudtext = "구름거의없음"; cloudmat1.SetFloat("_Density", 1.8f); cloudmat2.SetFloat("_Density", 1.8f); break;
-            case 3: cloudtext="구름많음"; col.a = 1.0f; col2.a = 1.0f;  mylight.intensity *= 0.9f; cloudmat1.SetFloat("_Density", 1.5f); cloudmat2.SetFloat("_Density", 1.5f); break;
-            case 4:   cloudtext="구름많음"; col.a = 1.0f; col2.a = 1.0f; cloudmat1.SetFloat("_Density", 1.5f); cloudmat2.SetFloat("_Density", 1.5f); fogemi.enabled = true; mylight.flare = null; mylight.intensity *= 0.8f;  fogmain.loop = true;  break;
+            case 1:  cloudtext="구름없음"; ccolor.a=  0f;  ccolor2.a =  0f;  mylight.intensity *= 1.1f; cloudmat1.SetFloat("_Density", 2.0f); cloudmat2.SetFloat("_Density", 2.0f); break;
+            case 2:  cloudtext = "구름거의없음"; ccolor.a = 150.0f; ccolor2.a = 150f; cloudmat1.SetFloat("_Density", 1.8f); cloudmat2.SetFloat("_Density", 1.8f); break;
+            case 3:  cloudtext="구름많음"; ccolor.a = 255.0f; ccolor2.a = 255f; mylight.intensity *= 0.9f; cloudmat1.SetFloat("_Density", 1.5f); cloudmat2.SetFloat("_Density", 1.5f); break;
+            case 4:  cloudtext="구름많음"; ccolor.a = 255.0f; ccolor2.a = 255f; cloudmat1.SetFloat("_Density", 1.5f); cloudmat2.SetFloat("_Density", 1.5f);  mylight.intensity *= 0.8f; fogemi.enabled = true; fogmain.loop = true;  break;
             default: cloudtext=""; break;
 
-        }//sky:cloud 세팅완료
+        }
+        cloudmat1.color = ccolor;
+        cloudmat2.color = ccolor2;
+        //sky:cloud 세팅완료
 
         //온도-폭염 heat distortion
         var heatmain = heatdistortion.main;
@@ -357,13 +377,6 @@ public class SetModel : MonoBehaviour
         else if(show.windV<13.8) {animator.speed=2.5f;windtext="강풍"; treeA.SetFloat("_MotionSpeed", 2.4f); treeA.SetFloat("_MotionRange", 2.0f); }
         else {animator.speed=3.6f;windtext="강풍주의"; treeA.SetFloat("_MotionSpeed", 2.99f); treeA.SetFloat("_MotionRange", 2.25f); }//강풍주의보
 
-        // Color temp_color1= new Color(0,163,255,255);
-        //Color temp_color2= new Color(136,200,243,255);
-        // Color temp_color3= new Color(0,163,255,255);
-        // var tempd=Skyrend.materials[0];
-        /*tempd.SetColor("_Color1",temp_color1);
-        tempd.SetColor("_Color2",temp_color2);
-        tempd.SetColor("_Color3",temp_color3);*/
         Signtext.text = date1.ToString() + "월 " + date2.ToString() + "일\r\n" + time.ToString() + "시\r\n" + temptext + "\n" + raintext + ' ' + cloudtext + ' ' + windtext;
         if(show.state==0) Signtext.text+="\n" + airquality;
         //표지판 세팅 완료
