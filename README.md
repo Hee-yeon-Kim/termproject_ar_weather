@@ -1,5 +1,4 @@
-# AR Weather App - Postech Computer Graphics Term_Project
-김희연(20180880), 남현우(20202650), 문예빈(20202841)
+# AR Weather App 
 
 Unity version: 3
 APK: zip folder including apk file you can execute.
